@@ -10,8 +10,8 @@ const options = {
 
 const player = new Player(iframe, options);
 
-player.setVolume(0);
-
 player.on('timeupdate', function(time) {
-    console.log(time.seconds);
+    localStorage.setItem("timer", time.seconds)
 });
+
+player.setCurrentTime(localStorage.timer)
