@@ -5,33 +5,39 @@ const mail = document.querySelector("input");
 const textarea = document.querySelector("textarea");
 const submit = document.querySelector("button")
 
+let userMail;
+let userTextarea;
+let date;
+
 const textBox = throttle(event => {
     if (event.target.nodeName === "INPUT") {
-        localStorage.setItem("feedbackMail", event.target.value)
+        userMail = event.target.value
     }
     else {
-        localStorage.setItem("feedbackTextarea", event.target.value)
+        userTextarea = event.target.value
     }
+    const userBox = {
+        mail: userMail,
+        textarea: userTextarea
+    };
+    localStorage.setItem("feedback", JSON.stringify(userBox));
+    onload();
 },500)
 
-if (localStorage.feedbackMail === undefined) {
-    mail.value = "";
-}
-else {
-    mail.value = localStorage.feedbackMail;
+const onload = () => {
+    JSON.parse(localStorage.feedback);
 }
 
-if (localStorage.feedbackTextarea === undefined) {
-    textarea.value = "";
-}
-else {
-    textarea.value = localStorage.feedbackTextarea;
-}
+console.log(JSON.parse(localStorage.feedback))
 
-const clearBox = () => {
+const clearBox = (event) => {
+    if (userMail === undefined || userTextarea === undefined || userMail === "" || userTextarea === "") {
+        event.preventDefault();
+        alert("Please, complete the application fields");
+    }
     localStorage.clear();
-    mail.value = "";
-    textarea.value = "";
+    userMail = "";
+    userTextarea = "";
 }
 
 form.addEventListener("input", textBox)
