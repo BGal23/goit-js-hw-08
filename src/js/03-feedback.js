@@ -5,39 +5,37 @@ const mail = document.querySelector("input");
 const textarea = document.querySelector("textarea");
 const submit = document.querySelector("button")
 
-let userMail;
-let userTextarea;
-let date;
-
 const textBox = throttle(event => {
     if (event.target.nodeName === "INPUT") {
-        userMail = event.target.value
+        mail.value = event.target.value
     }
     else {
-        userTextarea = event.target.value
+        textarea.value = event.target.value
     }
     const userBox = {
-        mail: userMail,
-        textarea: userTextarea
+        mail: mail.value,
+        textarea: textarea.value
     };
     localStorage.setItem("feedback", JSON.stringify(userBox));
-    onload();
 },500)
 
-const onload = () => {
-    JSON.parse(localStorage.feedback);
+if (localStorage.feedback === undefined) {
+    mail.value = ""
+    textarea.value = ""
+}
+else {
+    mail.value = JSON.parse(localStorage.feedback).mail
+    textarea.value = JSON.parse(localStorage.feedback).textarea
 }
 
-console.log(JSON.parse(localStorage.feedback))
-
 const clearBox = (event) => {
-    if (userMail === undefined || userTextarea === undefined || userMail === "" || userTextarea === "") {
+    if (mail.value === undefined || textarea.value === undefined || mail.value === "" || textarea.value === "") {
         event.preventDefault();
         alert("Please, complete the application fields");
     }
     localStorage.clear();
-    userMail = "";
-    userTextarea = "";
+    mail.value = "";
+    textarea.value = "";
 }
 
 form.addEventListener("input", textBox)
