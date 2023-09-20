@@ -28,14 +28,28 @@ else {
     textarea.value = JSON.parse(localStorage.feedback).textarea
 }
 
+const onLoad = () => {
+    const userBox = {
+        email: mail.value,
+        message: textarea.value
+    };
+    console.log(userBox)
+}
+
 const clearBox = (event) => {
-    if (mail.value === undefined || textarea.value === undefined || mail.value === "" || textarea.value === "") {
-        event.preventDefault();
+    event.preventDefault();
+    if (!mail.value || !textarea.value) {
         alert("Please, complete the application fields");
     }
+    else {
+    
+    onLoad()
+    
     localStorage.clear();
     mail.value = "";
     textarea.value = "";
+    }
+return
 }
 
 form.addEventListener("input", textBox)
