@@ -11,5 +11,12 @@ const videoTime = throttle(value => {
 
 player.on('timeupdate', videoTime)
 
-player.setCurrentTime(localStorage.timer)
+player.setCurrentTime(localStorage.timer).catch(function (error) {
+    switch (error.name) {
+        case 'RangeError':
+            break;
+        default:
+            break;
+    }
+});
 
